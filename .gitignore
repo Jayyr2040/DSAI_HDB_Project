@@ -1,0 +1,21 @@
+# --- CRITICAL CLOUD CREDENTIAL SECURITY ---
+gcp_key.json
+*.json.key
+.env
+project-8d552288-1acb-4a23-893-d3611f4ad26e.json
+
+# --- PIPELINE MASSIVE CACHED DATASETS (Never push Parquet to Git) ---
+scripts/enriched_hdb_resale.parquet
+*.parquet
+*.csv
+
+# --- PIPELINE LOCAL CACHE LAYER FILES ---
+scripts/*_cache.json
+scripts/*_old.json
+
+# --- SYSTEM & ENVIRONMENT INTERNALS ---
+.meltano/
+.dbt/
+__pycache__/
+*.pyc
+.DS_Store
