@@ -1,0 +1,7 @@
+version: 2
+sources:
+  - name: hdb_raw_staging
+    database: project-8d552288-1acb-4a23-893
+    schema: hdb_raw_staging
+    tables:
+      - name: raw_enriched_transactions

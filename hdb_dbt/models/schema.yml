@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  # =========================================================================
+  # CENTRAL TRANSACTION FACTS
+  # =========================================================================
+  - name: fact_sales
+    description: "Centralized fact table managing core continuous HDB resale price insights."
+    columns:
+      - name: transaction_id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+      - name: property_id
+        description: "The foreign key to the property dimension table"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_properties')
+                field: property_id
+      - name: resale_price
+        tests:
+          - not_null
+
+    # =========================================================================
+    # STAR DIMENSION ENTITIES
+    # =================================================================================
+  - name: dim_properties
+    columns: 
+      - name: property_id
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_retail_proximity
+    columns:
+      - name: retail_proximity_id
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_transit_proximity
+    columns:
+      - name: transit_proximity_id
+        tests: 
+          - unique
+          - not_null
+
+  - name: dim_school_proximity
+    columns: 
+      - name: school_proximity_id
+        tests: 
+          - unique
+          - not_null
+

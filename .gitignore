@@ -19,3 +19,8 @@ scripts/*_old.json
 __pycache__/
 *.pyc
 .DS_Store
+
+# dbt Artifacts & Compilation Caches
+hdb_dbt/target/
+hdb_dbt/dbt_packages/
+hdb_dbt/logs/

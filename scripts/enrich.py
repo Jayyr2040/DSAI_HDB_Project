@@ -10,6 +10,8 @@ from pprint import pprint
 from datetime import datetime
 import pyarrow as pa
 import pyarrow.parquet as pq
+from google.cloud import bigquery #27/5- from parquet to bigquery for orchestration consideration
+from google.oauth2 import service_account #27/5- from parquet to bigquery for orchestration consideration
 
 load_dotenv()
 
@@ -938,6 +940,7 @@ print("""
 # ===============================================================================================================================
 """)
 
+# 1. Original local file write for reference
 df.to_parquet(output_path, engine="pyarrow", index=False)
 
 print("\n=====================================================================")
@@ -946,9 +949,44 @@ print(f"   Shape of final DataFrame: {df.shape[0]:,} rows x {df.shape[1]} column
 print(f"   Final Matrix Exported:    {output_path}")
 print("=====================================================================")
 
+# 2. Complete Bigquery setup and execution logic
+credentials_path = "/mnt/c/Users/taiji/DS2026/S2_Big_Data/hdb_project/project-8d552288-1acb-4a23-893-d3611f4ad26e.json"
+if not os.path.exists(credentials_path):
+    raise FileNotFoundError(f"Missing Cloud credentials file at {credentials_path}")
+
+credentials = service_account.Credentials.from_service_account_file(credentials_path)
+
+PROJECT_ID = "project-8d552288-1acb-4a23-893"
+DATASET_ID = "hdb_raw_staging"
+client = bigquery.Client(credentials=credentials, project=PROJECT_ID)
+
+dataset_ref = bigquery.DatasetReference(PROJECT_ID,DATASET_ID)
+dataset = bigquery.Dataset(dataset_ref)
+dataset.location = "US"
+client.create_dataset(dataset, exists_ok = True)
+
+job_config = bigquery.LoadJobConfig(write_disposition = "WRITE_TRUNCATE")
+
+target_table = f"{PROJECT_ID}.{DATASET_ID}.raw_enriched_transactions"
+print(f"🚀 Ingesting duplicate stream to BigQuery: {target_table}...")
+
+job = client.load_table_from_dataframe(df, target_table, job_config = job_config)
+job.result()
+
+# 3. Clean UI Print logs reporting BOTH export locations
+print("\n==========================================================================")
+print("🎉 PIPELINE ENRICHMENT & COMPONENT INGESTION COMPLETE!")
+print(f"   Shape of final DataFrame: {df.shape[0]:,} rows x {df.shape[1]} columns")
+print(f"   Local Parquet Backup Saved:        {output_path}")
+print(f"   Cloud Warehouse Layer Ingested:    {target_table}")
+print("============================================================================")
+
+
 # Check final NA columns post-enrichment
 print("\nFinal Missing Value Check:")
 print(df.isna().sum())
+
+
 
 # =====================================================================
 # STEP 7: PARQUET INTEGRITY & CONTENT VERIFICATION

@@ -1,0 +1,51 @@
+[0m23:00:04.163172 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7bc7702b42d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7bc7702b5210>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7bc7702b5350>]}
+
+
+============================== 23:00:04.176299 | 60e06bbf-b07b-4b1c-9dc3-7e2de631856c ==============================
+[0m23:00:04.176299 [info ] [MainThread]: Running with dbt=1.10.9
+[0m23:00:04.179188 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/taijl/.dbt', 'version_check': 'True', 'warn_error': 'None', 'log_path': 'logs', 'debug': 'False', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'log_format': 'default', 'static_parser': 'True', 'invocation_command': 'dbt init hdb_dbt', 'introspect': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'send_anonymous_usage_stats': 'True'}
+[0m23:00:04.245097 [debug] [MainThread]: Starter project path: /home/taijl/miniconda/envs/elt/lib/python3.11/site-packages/dbt/include/starter_project
+[0m23:00:04.616999 [info ] [MainThread]: 
+Your new dbt project "hdb_dbt" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m23:00:04.620130 [info ] [MainThread]: Setting up your profile.
+[0m23:02:22.090098 [info ] [MainThread]: Profile hdb_dbt written to /home/taijl/.dbt/profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m23:02:22.097639 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 138.13403, "process_in_blocks": "421160", "process_kernel_time": 19.00536, "process_mem_max_rss": "401048", "process_out_blocks": "8", "process_user_time": 14.443276}
+[0m23:02:22.103212 [debug] [MainThread]: Command `dbt init` succeeded at 23:02:22.102908 after 138.14 seconds
+[0m23:02:22.105231 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7bc77337bd90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7bc774d2dd50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7bc774b88690>]}
+[0m23:02:22.108512 [debug] [MainThread]: Flushing usage events
+[0m23:02:24.117073 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m23:02:35.845987 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7742b1cba5d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7742b61d2a50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7742b2157650>]}
+
+
+============================== 23:02:35.854007 | f9a0b81d-244c-437f-9dbd-d514443c1c09 ==============================
+[0m23:02:35.854007 [info ] [MainThread]: Running with dbt=1.10.9
+[0m23:02:35.856478 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/taijl/.dbt', 'version_check': 'True', 'warn_error': 'None', 'log_path': 'logs', 'debug': 'False', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'static_parser': 'True', 'introspect': 'True', 'invocation_command': 'dbt debug', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m23:02:35.897287 [info ] [MainThread]: dbt version: 1.10.9
+[0m23:02:35.899477 [info ] [MainThread]: python version: 3.11.14
+[0m23:02:35.901491 [info ] [MainThread]: python path: /home/taijl/miniconda/envs/elt/bin/python
+[0m23:02:35.903998 [info ] [MainThread]: os info: Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.31
+[0m23:03:02.219366 [info ] [MainThread]: Using profiles dir at /home/taijl/.dbt
+[0m23:03:02.221408 [info ] [MainThread]: Using profiles.yml file at /home/taijl/.dbt/profiles.yml
+[0m23:03:02.223217 [info ] [MainThread]: Using dbt_project.yml file at /mnt/c/Users/taiji/DS2026/S2_Big_Data/hdb_project/dbt_project.yml
+[0m23:03:02.225137 [error] [MainThread]: Encountered an error:
+Internal Error
+  Profile should not be None if loading profile completed
+[0m23:03:02.227476 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": false, "command_wall_clock_time": 26.48329, "process_in_blocks": "197376", "process_kernel_time": 14.705836, "process_mem_max_rss": "407324", "process_out_blocks": "0", "process_user_time": 13.991961}
+[0m23:03:02.230963 [debug] [MainThread]: Command `dbt debug` failed at 23:03:02.230513 after 26.49 seconds
+[0m23:03:02.233997 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7742b6677910>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7742b1cb8710>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7742b1cb8890>]}
+[0m23:03:02.236671 [debug] [MainThread]: Flushing usage events
+[0m23:03:03.282900 [debug] [MainThread]: An error was encountered while trying to flush usage events
