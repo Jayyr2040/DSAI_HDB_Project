@@ -3,6 +3,7 @@ import plotly.express as px
 import pandas as pd
 import streamlit as st
 from sqlalchemy import create_engine
+from google.oauth2 import service_account
 
 # =====================================================================================
 # 1. APPLICATION SETUP & PAGE CONFIGURATION
@@ -32,18 +33,43 @@ def get_bigquery_engine():
     """
     credentials_path = "/mnt/c/Users/taiji/DS2026/S2_Big_Data/hdb_project/project-8d552288-1acb-4a23-893-d3611f4ad26e.json"
 
+    # if os.path.exists(credentials_path):
+    #     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials_path
+    # elif "bigquery_credentials" in st.secrets:
+    #     # For deployment security on Streamlit Community Cloud
+    #     import json
+    #     with open("gcp_key.json", "w") as f:
+    #         json.dump(dict(st.secrets["bigquery_credentials"]), f)
+    #     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gcp_key.json"
+
+    # PROJECT_ID = "project-8d552288-1acb-4a23-893"
+    # connection_string = f"bigquery://{PROJECT_ID}/hdb_analytics_marts"
+    # return create_engine(connection_string)
+
+    # 28/5 #########################################################################
     if os.path.exists(credentials_path):
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials_path
+        # Extract project ID programmatically or keep local fallback
+        project_id = "project-8d552288-1acb-4a23-893" 
+        connection_string = f"bigquery://{project_id}/hdb_analytics_marts"
+        return create_engine(connection_string)
+        
+    # 2. Cloud Environment Fallback (Safe & Fileless)
     elif "bigquery_credentials" in st.secrets:
-        # For deployment security on Streamlit Community Cloud
-        import json
-        with open("gcp_key.json", "w") as f:
-            json.dump(dict(st.secrets["bigquery_credentials"]), f)
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gcp_key.json"
-
-    PROJECT_ID = "project-8d552288-1acb-4a23-893"
-    connection_string = f"bigquery://{PROJECT_ID}/hdb_analytics_marts"
-    return create_engine(connection_string)
+        # Load credentials directly from the secrets dictionary
+        creds_info = dict(st.secrets["bigquery_credentials"])
+        project_id = creds_info.get("project_id")
+        
+        # Create an authorized credentials object
+        credentials = service_account.Credentials.from_service_account_info(creds_info)
+        
+        # Pass the credentials object directly to create_engine
+        connection_string = f"bigquery://{project_id}/hdb_analytics_marts"
+        return create_engine(connection_string, credentials=credentials)
+        
+    else:
+        raise ValueError("No BigQuery credentials found locally or in Streamlit Secrets.")
+    ################ 28/5 #####################################################
 
 
 @st.cache_data(ttl=3600)  # Cache invalidates auto-refreshing once every hour
