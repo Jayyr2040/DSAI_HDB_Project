@@ -4,6 +4,7 @@ import pandas as pd
 import streamlit as st
 from sqlalchemy import create_engine
 from google.oauth2 import service_account
+import json
 
 # =====================================================================================
 # 1. APPLICATION SETUP & PAGE CONFIGURATION
@@ -49,23 +50,22 @@ def get_bigquery_engine():
     # 28/5 #########################################################################
     if os.path.exists(credentials_path):
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials_path
-        # Extract project ID programmatically or keep local fallback
         project_id = "project-8d552288-1acb-4a23-893" 
         connection_string = f"bigquery://{project_id}/hdb_analytics_marts"
         return create_engine(connection_string)
         
-    # 2. Cloud Environment Fallback (Safe & Fileless)
+    # 2. Cloud Environment Path via Streamlit Secrets (Fixes your Timeout Error)
     elif "bigquery_credentials" in st.secrets:
-        # Load credentials directly from the secrets dictionary
+        # Load your secrets dict
         creds_info = dict(st.secrets["bigquery_credentials"])
         project_id = creds_info.get("project_id")
         
-        # Create an authorized credentials object
-        credentials = service_account.Credentials.from_service_account_info(creds_info)
+        # Stringify the JSON credentials dictionary to pass into the engine configuration
+        creds_json_string = json.dumps(creds_info)
         
-        # Pass the credentials object directly to create_engine
+        # Pass the raw JSON string configuration directly as a dialect parameter string
         connection_string = f"bigquery://{project_id}/hdb_analytics_marts"
-        return create_engine(connection_string, credentials=credentials)
+        return create_engine(connection_string, credentials_info=creds_info)
         
     else:
         raise ValueError("No BigQuery credentials found locally or in Streamlit Secrets.")
